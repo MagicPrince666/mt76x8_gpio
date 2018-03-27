@@ -5,6 +5,9 @@
 #define MMAP_PATH	"/dev/mem"
 
 
+#define REG_BASE 0x10000000
+#define MAP_SIZE   1024
+
 #define RALINK_GPIO_DIR_IN		0
 #define RALINK_GPIO_DIR_OUT		1
 
@@ -46,8 +49,8 @@ int gpio_mmap(void)
 		return -1;
 	}
 
-	gpio_mmap_reg = (uint8_t*) mmap(NULL, 1024, PROT_READ | PROT_WRITE,
-		MAP_FILE | MAP_SHARED, gpio_mmap_fd, 0x10000000);
+	gpio_mmap_reg = (uint8_t*) mmap(NULL, MAP_SIZE, PROT_READ | PROT_WRITE,
+		MAP_FILE | MAP_SHARED, gpio_mmap_fd, REG_BASE);
 	if (gpio_mmap_reg == MAP_FAILED) {
 		perror("foo");
 		fprintf(stderr, "failed to mmap");
